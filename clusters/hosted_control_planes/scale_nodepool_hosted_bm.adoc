@@ -1,7 +1,7 @@
 [#scaling-the-nodepool]
 = Scaling the NodePool object for a hosted cluster
 
-You add nodes to your hosted cluster by scaling the `NodePool` object.
+To add nodes to your hosted cluster, scale the `NodePool` object. Complete the following steps:
 
 . Scale the `NodePool` object to two nodes:
 
@@ -140,7 +140,6 @@ clusteroperator.config.openshift.io/storage                                    4
 You can create node pools for a hosted cluster by specifying a name, number of replicas, and any additional information, such as an agent label selector.
 
 . To create a node pool, enter the following information:
-
 +
 ----
 export NODEPOOL_NAME=${CLUSTER_NAME}-extra-cpu
@@ -150,11 +149,12 @@ hcp create nodepool agent \
   --cluster-name $CLUSTER_NAME \
   --name $NODEPOOL_NAME \
   --node-count $WORKER_COUNT \
-  --agentLabelSelector '{"matchLabels": {"size": "medium"}}' <1>
+  --node-upgrade-type InPlace \
+  --agentLabelSelector 'size=large,zone notin (az1,az2)'
 ----
 
 +
-<1> The `--agentLabelSelector` is optional. The node pool uses agents with the `"size" : "medium"` label.
+<1> The `--agentLabelSelector` is optional. The node pool uses agents with the `'size=large,zone notin (az1,az2)'` label.
 
 . Check the status of the node pool by listing `nodepool` resources in the `clusters` namespace:
 
